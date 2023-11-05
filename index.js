@@ -1,6 +1,7 @@
 const api = require("@justalk/pornhub-api") 
 const { exec } = require("child_process")
 var m3u8ToMp4 = require("m3u8-to-mp4");
+const { compressVideo } = require("@vanih/dunes-node")
 var converter = new m3u8ToMp4();
 const { PornHub } = require("pornhub.js")
 const fs = require("fs")
@@ -18,10 +19,12 @@ api.search("chinese teenager girl").then(async (list) => {
         const a = await hub.video(e.link)
         const d = a.mediaDefinitions.find(e=> e.format == "hls")
     if(!d) return;
-    console.log(d)
     await converter
           .setInputFile(d.videoUrl.split(`\\`).join(""))
           .setOutputFile("./output/"+e.title+".mp4")
           .start();
+   await compressVideo("./output/"+e.title+".mp4", "./hi/"+e.title+".webm", {
+            crf: 63,
+        });
   
 })
