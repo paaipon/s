@@ -16,8 +16,12 @@ api.search("chinese teenager girl").then(async (list) => {
         // exec("node r.js download=highest url="+e.link, (a,b,c) => console.log(a,b,c))
           //  exec(`wget -c -O "./output/${e.title}.m3u8" "${r.download_urls["1080P"]}"`,(a,b,c)=>
         const a = await hub.video(e.link)
-        const d = a.mediaDefinitions.find(e=> e.format == "mp4")
+        const d = a.mediaDefinitions.find(e=> e.format == "hls")
     if(!d) return;
-    exec(`wget -c -O '${e.title}.mp4' `+d.videoUrl, (a,b,c)=>console.log(a,b,c))
+    console.log(d)
+    await converter
+          .setInputFile(d.videoUrl.split(`\\`).join(""))
+          .setOutputFile("./output/"+e.title+".mp4")
+          .start();
   
 })
