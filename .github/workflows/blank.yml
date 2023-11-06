@@ -3,8 +3,6 @@ name: Kop kunna krap
 on:
   push:
     branches: [ master ]
-  schedule:
-    - cron: "0 */2 * * *"
   watch:
     type: started
     
